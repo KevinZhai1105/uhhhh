@@ -8,118 +8,94 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden; /* prevent scrollbars */
-      background: #fff0f7;
-      font-family: 'Caveat', cursive;
-      cursor: pointer;
-      transition: background 1s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background: white;
-      z-index: 9999;
-      animation: fadeOut 2s ease forwards;
-      animation-delay: 1s;
-      pointer-events: none;
-    }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: #fff0f7;
+  font-family: 'Caveat', cursive;
+  cursor: pointer;
+  overflow: hidden; /* prevent scrollbars */
+  
+  /* Flexbox to center everything */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
+/* Page container settings */
+.page {
+  position: absolute; /* Position all pages on top of each other */
+  top: 0;
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Offset to truly center the page */
+  width: 100%; /* Full width, centered */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+}
 
-    .page {
-      position: relative; /* no absolute to prevent overflow */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      max-width: 90vw;
-      max-height: 90vh;
-      width: 100%;
-      height: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.5s ease;
-    }
+/* Visible page when it's time */
+.page.visible {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
 
-    .page.visible {
-      opacity: 1;
-      pointer-events: auto;
-      z-index: 1;
-    } 
+.page-content {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: #ff66b2;
+  user-select: none;
+  white-space: pre-wrap;
+  line-height: 1.3;
+  word-break: break-word;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
 
-    .page-content {
-      font-size: clamp(2rem, 6vw, 3.5rem);
-      color: #ff66b2;
-      user-select: none;
-      white-space: pre-wrap;
-      line-height: 1.3;
-      word-break: break-word;
-      max-width: 100%;
-      margin-bottom: 20px;
-    }
+/* Images */
+img, video {
+  max-width: 100%;
+  max-height: 50vh;
+  margin-top: 15px;
+  border-radius: 16px;
+  object-fit: contain;
+}
 
-    .page[data-bg="#e0f7ff"] .page-content {
-      color: #ff66b2; /* pink on blue */
-    }
+/* Click hint */
+#click-hint {
+  position: fixed;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #aaa;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  font-family: sans-serif;
+}
 
-    .type-char {
-      opacity: 0;
-      display: inline-block;
-      transform: translateY(15px);
-      animation: riseFade 0.8s forwards;
-    }
-    @keyframes riseFade {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+#click-hint.visible {
+  opacity: 1;
+}
 
-    #click-hint {
-      position: fixed;
-      bottom: 40px;
-      width: 100%;
-      text-align: center;
-      font-size: 1.2rem;
-      color: #aaa;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
-      font-family: sans-serif;
-    }
 
-    #click-hint.visible {
-      opacity: 1;
-    }
-
-    
-    img, video {
-      max-width: 100%;
-      max-height: 50vh;
-      margin-top: 15px;
-      border-radius: 16px;
-      object-fit: contain;
-    }
   </style>
 </head>
 <body>
