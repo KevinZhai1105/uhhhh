@@ -8,103 +8,121 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      background: #fff0f7;
-      font-family: 'Caveat', cursive;
-      cursor: pointer;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
+html {
+  -webkit-text-size-adjust: 100%;
+}
 
-    .page {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.5s ease;
-    }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: #fff0f7;
+  font-family: 'Caveat', cursive;
+  cursor: pointer;
+  overflow: hidden;
 
-    .page.visible {
-      opacity: 1;
-      pointer-events: auto;
-      z-index: 1;
-    }
+  /* Flexbox to center everything */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
-    .page-content {
-      font-size: clamp(3rem, 8vw, 6rem);
-      color: #ff66b2;
-      user-select: none;
-      white-space: pre-wrap;
-      line-height: 1.4;
-      word-break: break-word;
-      max-width: 100%;
-      margin-bottom: 20px;
-    }
+/* Page container */
+.page {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+}
 
-    .type-char {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(0.5em);
-      animation: riseFade 0.6s ease forwards;
-      animation-fill-mode: both;
-      line-height: 1;
-      padding: 0;
-      margin: 0;
-    }
-    @keyframes riseFade {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+/* Show when active */
+.page.visible {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
 
+/* Cutesy animated text */
+.page-content {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  color: #ff66b2;
+  user-select: none;
+  white-space: pre-wrap;
+  line-height: 1.2;
+  word-break: break-word;
+  max-width: 90vw;
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.1em;
+}
 
-    img, video {
-      max-width: 80vw;
-      max-height: 60vh;
-      margin-top: 15px;
-      border-radius: 16px;
-      object-fit: contain;
-    }
+/* Typewriter character style */
+.type-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em);
+  animation: riseFade 0.6s ease forwards;
+  animation-fill-mode: both;
+  line-height: 1.2;
+  font-size: inherit;
+}
 
-    #click-hint {
-      position: fixed;
-      bottom: 40px;
-      width: 100%;
-      text-align: center;
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      color: #aaa;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
-      font-family: sans-serif;
-    }
+@keyframes riseFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    #click-hint.visible {
-      opacity: 1;
-    }
-  </style>
+/* Images + gifs */
+img, video {
+  max-width: 80vw;
+  max-height: 60vh;
+  margin-top: 15px;
+  border-radius: 16px;
+  object-fit: contain;
+}
+
+/* Click hint */
+#click-hint {
+  position: fixed;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: #aaa;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  font-family: sans-serif;
+}
+
+#click-hint.visible {
+  opacity: 1;
+}
+</style>
+
 </head>
 <body>
   <div class="overlay"></div>
