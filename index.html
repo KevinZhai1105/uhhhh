@@ -8,94 +8,99 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet" />
   <style>
-/* Reset */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  background: #fff0f7;
-  font-family: 'Caveat', cursive;
-  cursor: pointer;
-  overflow: hidden; /* prevent scrollbars */
-  
-  /* Flexbox to center everything */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: #fff0f7;
+      font-family: 'Caveat', cursive;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
 
-/* Page container settings */
-.page {
-  position: absolute; /* Position all pages on top of each other */
-  top: 0;
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Offset to truly center the page */
-  width: 100%; /* Full width, centered */
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1.5s ease;
-}
+    .page {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s ease;
+    }
 
-/* Visible page when it's time */
-.page.visible {
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 1;
-}
+    .page.visible {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 1;
+    }
 
-.page-content {
-  font-size: clamp(3rem, 8vw, 6rem); /* Larger text with more flexibility */
-  color: #ff66b2;
-  user-select: none;
-  white-space: pre-wrap;
-  line-height: 1.4;
-  word-break: break-word;
-  max-width: 100%;
-  margin-bottom: 20px;
-}
+    .page-content {
+      font-size: clamp(3rem, 8vw, 6rem);
+      color: #ff66b2;
+      user-select: none;
+      white-space: pre-wrap;
+      line-height: 1.4;
+      word-break: break-word;
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
 
-/* Images */
-img, video {
-  max-width: 80vw; /* Scale images larger, but within 80% of the viewport width */
-  max-height: 60vh; /* Max height is 60% of viewport height */
-  margin-top: 15px;
-  border-radius: 16px;
-  object-fit: contain;
-}
+    /* Typewriter animation for each character */
+    .type-char {
+      opacity: 0;
+      display: inline-block;
+      transform: translateY(10px);
+      animation: riseFade 0.6s ease forwards;
+    }
 
-/* Click hint */
-#click-hint {
-  position: fixed;
-  bottom: 40px;
-  width: 100%;
-  text-align: center;
-  font-size: clamp(1.5rem, 4vw, 2rem); /* Larger hint text */
-  color: #aaa;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-  font-family: sans-serif;
-}
+    @keyframes riseFade {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-#click-hint.visible {
-  opacity: 1;
-}
+    img, video {
+      max-width: 80vw;
+      max-height: 60vh;
+      margin-top: 15px;
+      border-radius: 16px;
+      object-fit: contain;
+    }
 
+    #click-hint {
+      position: fixed;
+      bottom: 40px;
+      width: 100%;
+      text-align: center;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: #aaa;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      font-family: sans-serif;
+    }
 
+    #click-hint.visible {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -108,7 +113,7 @@ img, video {
 
   <div class="page" data-bg="#e0f7ff">
     <div class="page-content" data-text="Guess what?"></div>
-    <img src="https://media1.tenor.com/m/sfxcLW4-g6MAAAAC/what-huhh.gif" alt="Cat with eyebrowsssssss gif" />
+    <img src="https://media1.tenor.com/m/sfxcLW4-g6MAAAAC/what-huhh.gif" alt="Cat with eyebrows gif" />
   </div>
 
   <div class="page" data-bg="#d0ffe6">
@@ -119,7 +124,6 @@ img, video {
   <div class="page" data-bg="#ffefc6">
     <div class="page-content" data-text="Alr sybau 👋"></div>
     <img src="https://media.tenor.com/OA8KFcZxPjsAAAAi/sad-emoji.gif" alt="Cute goodbye gif" />
-    <!-- <video src="assets/rotate.mp4" autoplay muted loop width="300"></video> -->
   </div>
 
   <!-- Hint -->
@@ -137,7 +141,6 @@ img, video {
     function showHintAfterIdle() {
       clearTimeout(idleTimer);
       if (current === pages.length - 1) {
-        // Last page: no hint and no timer
         hint.classList.remove('visible');
         return;
       }
@@ -155,7 +158,6 @@ img, video {
       if (!canClick || current >= pages.length - 1) return;
       canClick = false;
 
-      // Immediately hide hint and clear timer before transition
       clearTimeout(idleTimer);
       hint.classList.remove('visible');
 
@@ -166,7 +168,6 @@ img, video {
       pages[current].classList.add('visible');
       document.body.style.background = pages[current].dataset.bg || '#ffffff';
 
-      // After showing new page, only start hint timer if NOT last page
       if (current !== pages.length - 1) {
         showHintAfterIdle();
       }
@@ -181,7 +182,7 @@ img, video {
     function animateText(page) {
       const container = page.querySelector('.page-content');
       const text = container.dataset.text || '';
-      container.innerHTML = ''; // Clear
+      container.innerHTML = '';
 
       [...text].forEach((char, i) => {
         const span = document.createElement('span');
