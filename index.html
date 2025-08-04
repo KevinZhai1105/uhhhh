@@ -105,26 +105,31 @@
       opacity: 1;
     }
 
-    .parent {
-      position: relative;
-      top: 0;
-      left: 0;
-    }
+.parent {
+  position: relative;
+  width: 80vw; /* or whatever fits */
+  aspect-ratio: 16 / 9; /* maintain consistent layout */
+  max-height: 60vh;
+}
 
-    .backgroundimage {
-      position: relative;
-      top: 0;
-      left: 0;
-    }
 
-    .playerimage {
-      position: absolute;
-      top: 140px;
-      left: 10px;
-      height: 50%;
-      width: 50%;
-      animation: breathe 2s ease-in-out infinite;
-    }
+.backgroundimage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.playerimage {
+  position: absolute;
+  top: 25%;
+  left: 5%;
+  width: 20%;
+  height: auto;
+}
+
 
     @keyframes breathe {
       0%, 100% {
@@ -146,15 +151,13 @@
       }
     }
 
-    .crab {
-      position: absolute;
-      top: 300px;
-      left: 10px;
-      height: 20%;
-      width: 20%;
-      transform-origin: center;
-      animation: crabWalkWiggle 11s linear infinite;
-    }
+.crab {
+  position: absolute;
+  top: 60%;
+  left: 5%;
+  width: 20%;
+  height: auto;
+}
 
 
 
@@ -190,26 +193,20 @@
     }
 
 
-
-    .barimage {
-      position: absolute;
-      top: 135px;
-      left: 170px;
-      height: 50%;
-      width: 50%;
-/*    border: 1px green solid;  */
-
-    }
-
-    .rotating-image {
-      position: absolute;
-      top: 220px;
-      left: 75px;
-      width: 250px;
-      height: auto;
-/*    border: 1px green solid;  */
-
-    }
+.barimage {
+  position: absolute;
+  top: 24%;
+  left: 35%;
+  width: 30%;
+  height: auto;
+}
+.rotating-image {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  width: 15%;
+  height: auto;
+}
   </style>
 </head>
 <body>
