@@ -497,32 +497,31 @@
       }
 
     if (gamePage.classList.contains('visible')) {
-      if (!gameCompleted) {
-        const normalized = ((angle % 360) + 360) % 360;
-        if (normalized <= 5 || normalized >= 355) {
-          gameCompleted = true;
-          hint.textContent = "You did it🎉 Click to continue ";
-          hint.classList.add("visible");
-        } else {
-          hint.textContent = "Dang you suck";
-          hint.classList.add("visible");
-          setTimeout(() => hint.classList.remove("visible"), 1500);
-        }
-        return;
-      } else {
-        // If game is completed and user clicks again, allow next page
-        showNextPage();
-        return;
-      }
+  const normalized = ((angle % 360) + 360) % 360;
+
+  // User has not completed the game yet
+  if (!gameCompleted) {
+    if (normalized <= 5 || normalized >= 355) {
+      gameCompleted = true;
+      hint.textContent = "You did it 🎉 Click to continue";
+      hint.classList.add("visible");
+    } else {
+      hint.textContent = "Dang you suck";
+      hint.classList.add("visible");
+      setTimeout(() => hint.classList.remove("visible"), 1500);
     }
+    return; // wait until next click
+  } else {
+    // Game already completed and clicked again
+    hint.classList.remove("visible");
+    showNextPage(); // ✅ Allow progression now
+    return;
+  }
+}
 
 
-  // Prevent skipping game early
-  if (gamePage.classList.contains('visible') && !gameCompleted) return;
 
-    // Normal transition
-    showNextPage();
-  });
+
 
 
     // Animate the first page text if any
