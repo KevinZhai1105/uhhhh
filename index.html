@@ -290,7 +290,25 @@
     <div class="page-content" data-text="That's it."></div>
   </div>
   <div class="page" data-bg="#ffefc6">
-    <div class="page-content" data-text="I miss you"></div>
+    <div class="page-content" data-text="..."></div>
+  </div>
+  <div class="page" data-bg="#ffefc6">
+    <div class="page-content" data-text="I don't know how else to say this"></div>
+  </div>
+  <div class="page" data-bg="#ffefc6">
+    <div class="page-content" data-text="..."></div>
+  </div>
+  <div class="page" data-bg="#ffefc6">
+    <div class="page-content" data-text="I like you"></div>
+  </div>
+  <div class="page" data-bg="#ffefc6">
+    <div class="page-content" data-text="..."></div>
+  </div>
+  <div class="page" data-bg="#ffefc6">
+    <div class="page-content" data-text="Freaking baka"></div>
+  </div>
+  <div class="page" data-bg="#ffefc6">
+    <div class="page-content" data-text="..."></div>
   </div>
   <div class="page" data-bg="#ffefc6">
     <div class="page-content" data-text="Alr sybau 👋"></div>
@@ -303,11 +321,11 @@
     const bgMusic = document.getElementById('bg-music');
     const explosionSound = document.getElementById('explosion-sound');
     const endMusic = document.getElementById('end-music');
-    const changeMusicAt = 9;
+    const changeMusicAt = 10;
 
     const pages = Array.from(document.querySelectorAll('.page'));
     const hint = document.getElementById('click-hint');
-    const fadeDuration = 1100; // in ms (match CSS transition for opacity)
+    const fadeDuration = 11; // in ms (match CSS transition for opacity)
     const idleDelay = 3000;
     let current = 0;
     let canClick = true;
@@ -480,22 +498,29 @@
         return;
       }
 
-      // If on the game page, check win condition
-      if (current === changeMusicAt && !gameCompleted) {
-        const angleNormalized = (angle + 360) % 360;
-        if (angleNormalized <= 5 || angleNormalized >= 355) {
-          gameCompleted = true;
-          alert("You won the fishing game! 🎉");
-          showNextPage();
-          return;
-        } else {
-          alert("Try again! You need to click when the stick is near vertical.");
-          return;
-        }
-      }
+  // Game page click logic
+  if (gamePage.classList.contains('visible') && !gameCompleted) {
+    const normalized = ((angle % 360) + 360) % 360;
+    if (normalized <= 5 || normalized >= 355) {
+      gameCompleted = true;
+      canClick = true;
+      hint.textContent = "You did it🎉 Click to continue ";
+      hint.classList.add("visible");
+    } else {
+      hint.textContent = "Dang you suck";
+      hint.classList.add("visible");
+      setTimeout(() => hint.classList.remove("visible"), 1500);
+    }
+    return;
+  }
 
-      showNextPage();
-    });
+  // Prevent skipping game early
+  if (gamePage.classList.contains('visible') && !gameCompleted) return;
+
+  // Normal transition
+  showNextPage();
+});
+
 
     // Animate the first page text if any
     animateText(pages[0]);
