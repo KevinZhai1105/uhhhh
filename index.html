@@ -175,7 +175,7 @@ html, body {
 
     .crab {
       position: absolute;
-      top: 300px;
+      top: 250px;
       left: 10px;
       height: 20%;
       width: 20%;
@@ -271,6 +271,10 @@ html, body {
 
     <div class="page-content" data-text="..."></div>
   </div>
+  <div class="page" data-bg="#FFCCB5">
+
+    <div class="page-content" data-text="that's it.."></div>
+  </div>
   <div class="page" data-bg="#FFCCB6">
     <img src="https://media.tenor.com/G2p64oScTY8AAAAj/sad.gif" alt="Sad" />
   </div>
@@ -303,7 +307,7 @@ html, body {
     
     const pages = Array.from(document.querySelectorAll('.page'));
     const hint = document.getElementById('click-hint');
-    const fadeDuration = 15;
+    const fadeDuration = 1000;
     const idleDelay = 3000;
     let current = 0;
     let canClick = true;
@@ -441,10 +445,10 @@ document.body.addEventListener('click', () => {
     if (normalized <= 5 || normalized >= 355) {
       gameCompleted = true;
       canClick = true;
-      hint.textContent = "Nice! Click to continue 🎉";
+      hint.textContent = "You did it🎉 Click to continue ";
       hint.classList.add("visible");
     } else {
-      hint.textContent = "Try stopping it at the middle";
+      hint.textContent = "Dang you suck";
       hint.classList.add("visible");
       setTimeout(() => hint.classList.remove("visible"), 1500);
     }
