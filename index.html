@@ -485,11 +485,7 @@
         const angleNormalized = (angle + 360) % 360;
         if (angleNormalized <= 5 || angleNormalized >= 355) {
           gameCompleted = true;
-          alert("You won the fishing game! 🎉");
           showNextPage();
-          return;
-        } else {
-          alert("Try again! You need to click when the stick is near vertical.");
           return;
         }
       }
