@@ -409,7 +409,7 @@
   }
 
   // Audio helpers
-  function fadeOutAudio(audio, duration = 1500) {
+  function fadeOutAudio(audio, duration) {
     return new Promise(resolve => {
       const step = 0.05;
       const interval = duration / (audio.volume / step);
@@ -426,7 +426,7 @@
     });
   }
 
-  function fadeInAudio(audio, duration = 1500, targetVolume = 0.3) {
+  function fadeInAudio(audio, duration, targetVolume = 0.3) {
     if (!audio) return;
     audio.volume = 0;
     audio.play().catch(() => {});
@@ -451,7 +451,7 @@
     }
     // Switch music at page 10
     if (current === 10) {
-      fadeOutAudio(bgMusic);
+      fadeOutAudio(bgMusic, 1500);
       fadeInAudio(endMusic, 1500, 0.3);
     }
     // 🔥 Explosion page logic (first click after cat gif)
