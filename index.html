@@ -283,7 +283,7 @@
     </div>
   </div>
   <div class="page" data-bg="#ffefc6">
-    <div class="page-content" data-text="....."></div>
+    <div class="page-content" data-text="..."></div>
   </div>
   <div class="page" data-bg="#ffefc6">
     <div class="page-content" data-text="That's it."></div>
@@ -402,45 +402,34 @@
     document.body.style.background = next.dataset.bg || '#ffffff';
     animateText(next);
 
-    // Switch music at page 10
-    if (current === 10) {
-      await fadeOutAudio(bgMusic);
-      fadeInAudio(endMusic, 1500, 0.3);
-    }
+
 
     showHintAfterIdle();
     canClick = true;
   }
 
   // Audio helpers
-    function fadeOutAudio(audio, duration = 1500) {
-      return new Promise(resolve => {
-        if (!audio) return resolve();
-        const step = 0.05;
-        const interval = duration / (audio.volume / step);
-        const fade = setInterval(() => {
-          if (audio.volume > step) {
-            audio.volume = Math.max(0, audio.volume - step);
-          } else {
-            clearInterval(fade);
-            try {
-              audio.pause();
-            } catch (e) {}
-            audio.volume = 1;
-            resolve();
-          }
-        }, interval);
-      });
-    }
-
+  function fadeOutAudio(audio, duration = 1500) {
+    return new Promise(resolve => {
+      const step = 0.05;
+      const interval = duration / (audio.volume / step);
+      const fade = setInterval(() => {
+        if (audio.volume > step) {
+          audio.volume = Math.max(0, audio.volume - step);
+        } else {
+          clearInterval(fade);
+          audio.pause();
+          audio.volume = 1;
+          resolve();
+        }
+      }, interval);
+    });
+  }
 
   function fadeInAudio(audio, duration = 1500, targetVolume = 0.3) {
     if (!audio) return;
     audio.volume = 0;
-    audio.play().catch((e) => {
-      console.warn("Audio play failed:", e);
-      return; // Don't block transition
-    });
+    audio.play().catch(() => {});
     const step = 0.05;
     const interval = duration / (targetVolume / step);
     const fade = setInterval(() => {
@@ -453,7 +442,6 @@
     }, interval);
   }
 
-
   // First click interaction
   document.body.addEventListener('click', () => {
     if (!hasInteracted) {
@@ -461,7 +449,11 @@
       bgMusic.volume = 0.3;
       bgMusic.play().catch(() => {});
     }
-
+    // Switch music at page 10
+    if (current === 10) {
+      fadeOutAudio(bgMusic);
+      fadeInAudio(endMusic, 1500, 0.3);
+    }
     // 🔥 Explosion page logic (first click after cat gif)
     if (current === 1 && !firstPageExplosionPlayed) {
       firstPageExplosionPlayed = true;
