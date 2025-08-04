@@ -283,7 +283,7 @@
     </div>
   </div>
   <div class="page" data-bg="#ffefc6">
-    <div class="page-content" data-text="..."></div>
+    <div class="page-content" data-text="....."></div>
   </div>
   <div class="page" data-bg="#ffefc6">
     <div class="page-content" data-text="That's it."></div>
@@ -467,17 +467,29 @@
       img.style.transition = 'opacity 0.3s ease';
       explosionContainer.appendChild(img);
 
+      const catGif = document.getElementById('cat-gif');
+
       setTimeout(() => {
-        img.style.opacity = '1';
-        document.getElementById('cat-gif').style.opacity = '0';
         explosionSound.volume = 0.5;
         explosionSound.play().catch(() => {});
+
+        img.style.opacity = '1';
+
+        // Fade out both cat gif and explosion after 1.2s
+        setTimeout(() => {
+          catGif.style.transition = 'opacity 1.5s ease';
+          img.style.transition = 'opacity 1.5s ease';
+
+          catGif.style.opacity = '0';
+          img.style.opacity = '0';
+        }, 1200);
       }, 50);
 
       setTimeout(() => {
         explosionContainer.removeChild(img);
         showNextPage();
-      }, 2500);
+      }, 2550);
+
 
       return;
     }
