@@ -451,7 +451,7 @@
     }
     // Switch music at page 10
     if (current === 10) {
-      fadeOutAudio(bgMusic, 1500);
+      bgMusic.pause();
       fadeInAudio(endMusic, 1500, 0.3);
     }
     // 🔥 Explosion page logic (first click after cat gif)
