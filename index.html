@@ -5,30 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>To Savyella</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  background: #fff0f7;
-  font-family: "Marker Felt", "Chalkboard", "Bradley Hand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  cursor: pointer;
-}
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: #fff0f7;
+      font-family: "Marker Felt", "Chalkboard", "Bradley Hand", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      cursor: pointer;
+    }
 
-
-    
     .page {
       position: absolute;
       top: 0;
@@ -158,7 +156,7 @@ html, body {
         transform: scale(1);
       }
       50% {
-        transform: scale(1.025); /* Slightly bigger */
+        transform: scale(1.025);
       }
     }
 
@@ -183,10 +181,7 @@ html, body {
       animation: crabWalkWiggle 11s linear infinite;
     }
 
-
-
     @keyframes crabWalkWiggle {
-      /* FORWARD (0%–50%) */
       0%    { transform: translateX(0px) rotateZ(-3deg) rotateY(0deg); }
       4.16% { transform: translateX(15px) rotateZ(3deg) rotateY(0deg); }
       8.33% { transform: translateX(30px) rotateZ(-3deg) rotateY(0deg); }
@@ -200,8 +195,6 @@ html, body {
       41.66%{ transform: translateX(150px) rotateZ(-3deg) rotateY(0deg); }
       45.83%{ transform: translateX(165px) rotateZ(3deg) rotateY(0deg); }
       50%   { transform: translateX(180px) rotateZ(-3deg) rotateY(0deg); }
-
-      /* FLIP BACKWARD (51%–100%) */
       55%   { transform: translateX(165px) rotateZ(3deg) rotateY(180deg); }
       60%   { transform: translateX(150px) rotateZ(-3deg) rotateY(180deg); }
       65%   { transform: translateX(135px) rotateZ(3deg) rotateY(180deg); }
@@ -216,16 +209,12 @@ html, body {
       100%  { transform: translateX(0px)   rotateZ(-3deg) rotateY(0deg); }
     }
 
-
-
     .barimage {
       position: absolute;
       top: 135px;
       left: 170px;
       height: 50%;
       width: 50%;
-/*    border: 1px green solid;  */
-
     }
 
     .rotating-image {
@@ -234,25 +223,29 @@ html, body {
       left: 75px;
       width: 250px;
       height: auto;
-/*    border: 1px green solid;  */
-      /* No CSS animation */
     }
   </style>
 </head>
 <body>
-<!-- Preload explosion to prevent stutter -->
-<img id="explosion-preload" src="https://media.tenor.com/RCQgbxVWhYgAAAAi/discord-discordgifemoji.gif" style="display: none;" />
+  <audio id="bg-music" src="assets/bg-music.mp3" loop></audio>
+  <audio id="end-music" src="assets/end-music.mp3" loop></audio>
+  <audio id="explosion-sound" src="assets/explosion.mp3"></audio>
+
+  <!-- Preload explosion to prevent stutter -->
+  <img id="explosion-preload" src="https://media.tenor.com/RCQgbxVWhYgAAAAi/discord-discordgifemoji.gif" style="display: none;" />
 
   <!-- Pages -->
-<div class="page visible" data-bg="#fff0f7">
-  <div id="gif-wrapper" style="position: relative;">
-    
-    <img id="cat-gif" src="https://media.tenor.com/g7GCc40VwecAAAAi/rafs-rafsdesign.gif" alt="Cat gif" />
-    <div id="explosion-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;"></div>
+  <div class="page visible" id="sound-intro" data-bg="#fff0f7">
+    <div class="page-content" data-text="Before you continue, turn your sound on 🔊"></div>
+    <img src="https://media.tenor.com/HiK-rdcohEIAAAAi/listen-ear.gif" alt="Turn sound on" />
   </div>
-</div>
 
-
+  <div class="page" data-bg="#fff0f7">
+    <div id="gif-wrapper" style="position: relative;">
+      <img id="cat-gif" src="https://media.tenor.com/g7GCc40VwecAAAAi/rafs-rafsdesign.gif" alt="Cat gif" />
+      <div id="explosion-container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;"></div>
+    </div>
+  </div>
 
   <div class="page" data-bg="#e0f7ff">
     <div class="page-content" data-text="Guess what?"></div>
@@ -266,13 +259,10 @@ html, body {
     <img src="https://media1.tenor.com/m/aSkdq3IU0g0AAAAC/laughing-cat.gif" alt="Laughing cat" />
   </div>
 
-
   <div class="page" data-bg="#FFCCB5">
-
     <div class="page-content" data-text="..."></div>
   </div>
   <div class="page" data-bg="#FFCCB5">
-
     <div class="page-content" data-text="that's it.."></div>
   </div>
   <div class="page" data-bg="#FFCCB6">
@@ -294,20 +284,30 @@ html, body {
   </div>
 
   <div class="page" data-bg="#ffefc6">
-    <div class="page-content" data-text="Alr sybau 👋"></div>
     <img src="https://media.tenor.com/OA8KFcZxPjsAAAAi/sad-emoji.gif" alt="Sad goodbye" />
+  </div>
+  <div class="page" data-bg="#ffefc6">
+    <div class="page-content" data-text="That's it."></div>
+  </div>
+  <div class="page" data-bg="#ffefc6">
+    <div class="page-content" data-text="I miss you"></div>
+  </div>
+  <div class="page" data-bg="#ffefc6">
+    <div class="page-content" data-text="Alr sybau 👋"></div>
   </div>
 
   <!-- Hint -->
   <div id="click-hint">Click anywhere to continue 💫</div>
 
-
   <script>
+    const bgMusic = document.getElementById('bg-music');
+    const explosionSound = document.getElementById('explosion-sound');
+    const endMusic = document.getElementById('end-music');
+    const changeMusicAt = 10;
 
-    
     const pages = Array.from(document.querySelectorAll('.page'));
     const hint = document.getElementById('click-hint');
-    const fadeDuration = 1000;
+    const fadeDuration = 1100; // in ms (match CSS transition for opacity)
     const idleDelay = 3000;
     let current = 0;
     let canClick = true;
@@ -316,37 +316,25 @@ html, body {
 
     // Stick rotation logic
     let angle = -45;
-    let direction = 1; // 1 = clockwise, -1 = counter-clockwise
     const stick = document.querySelector('.rotating-image');
 
     function animateStick() {
-      const gamePage = document.getElementById('game-page');
-
       const time = performance.now() / 1000;
       const baseSpeed = 1;
       const amplitude = 45;
 
-      // Pure sine-based rotation
       const sinValue = Math.sin(time * baseSpeed);
-
-      // We'll exaggerate slowdown by applying an ease-in-out multiplier
-      // This slows down near sin = ±1 (top and bottom of the swing)
-      const easeMultiplier = Math.pow(Math.cos(time * baseSpeed), 2); // slows at ends
-
       angle = sinValue * amplitude;
 
-      // Optional: add a tiny slowdown near 0° for the goal "hover" moment
+      // Slightly reduce angle near 0°
       if (Math.abs(angle) < 10) {
-        angle *= 0.95 + (Math.abs(angle) / 10) * 0.05; // slightly reduce angle near 0°
+        angle *= 0.95 + (Math.abs(angle) / 10) * 0.05;
       }
 
       stick.style.transform = `rotate(${angle}deg)`;
       requestAnimationFrame(animateStick);
     }
-
-
     requestAnimationFrame(animateStick);
-
 
     function showHintAfterIdle() {
       clearTimeout(idleTimer);
@@ -373,11 +361,17 @@ html, body {
       hint.classList.remove('visible');
 
       pages[current].classList.remove('visible');
-      await new Promise((r) => setTimeout(r, fadeDuration));
+      await new Promise(r => setTimeout(r, fadeDuration));
 
       current++;
       pages[current].classList.add('visible');
       document.body.style.background = pages[current].dataset.bg || '#ffffff';
+
+      // 🔄 Change music at specific page
+      if (current === changeMusicAt) {
+        await fadeOutAudio(bgMusic);
+        fadeInAudio(endMusic, 1500, 0.3);
+      }
 
       if (current !== pages.length - 1) {
         showHintAfterIdle();
@@ -392,7 +386,8 @@ html, body {
 
     function animateText(page) {
       const container = page.querySelector('.page-content');
-      const text = container.dataset.text || '';
+      const text = container?.dataset.text || '';
+      if (!container) return;
       container.innerHTML = '';
 
       [...text].forEach((char, i) => {
@@ -404,70 +399,108 @@ html, body {
       });
     }
 
-let firstPageExplosionPlayed = false;
-
-document.body.addEventListener('click', () => {
-  const gamePage = document.getElementById('game-page');
-
-  // Handle first page explosion
-  if (current === 0 && !firstPageExplosionPlayed) {
-    firstPageExplosionPlayed = true;
-
-    // Use preloaded src but force reset
-    const preloadedSrc = document.getElementById('explosion-preload').src;
-
-    const explosionContainer = document.getElementById('explosion-container');
-    const explosionImg = document.createElement('img');
-    explosionImg.src = preloadedSrc + "?v=" + Date.now(); // Force restart
-    explosionImg.alt = "Explosion";
-    explosionImg.style.width = "500px";
-    explosionImg.style.height = "auto";
-    explosionImg.style.opacity = "0";
-    explosionImg.style.transition = "opacity 0.3s ease";
-    explosionImg.style.pointerEvents = "none";
-    explosionContainer.appendChild(explosionImg);
-
-    setTimeout(() => {
-      explosionImg.style.opacity = "1";
-    }, 50);
-
-    // Let explosion play fully, then continue
-    setTimeout(() => {
-      showNextPage();
-    }, 1800);
-
-    return;
-  }
-
-  // Game page click logic
-  if (gamePage.classList.contains('visible') && !gameCompleted) {
-    const normalized = ((angle % 360) + 360) % 360;
-    if (normalized <= 5 || normalized >= 355) {
-      gameCompleted = true;
-      canClick = true;
-      hint.textContent = "You did it🎉 Click to continue ";
-      hint.classList.add("visible");
-    } else {
-      hint.textContent = "Dang you suck";
-      hint.classList.add("visible");
-      setTimeout(() => hint.classList.remove("visible"), 1500);
+    function fadeOutAudio(audio, duration = 1500) {
+      return new Promise((resolve) => {
+        if (!audio) return resolve();
+        const step = 0.05;
+        const interval = duration / (audio.volume / step);
+        const fade = setInterval(() => {
+          if (audio.volume > step) {
+            audio.volume = Math.max(0, audio.volume - step);
+          } else {
+            clearInterval(fade);
+            audio.pause();
+            audio.volume = 1; // Reset for reuse
+            resolve();
+          }
+        }, interval);
+      });
     }
-    return;
-  }
 
-  // Prevent skipping game early
-  if (gamePage.classList.contains('visible') && !gameCompleted) return;
+    function fadeInAudio(audio, duration = 1500, targetVolume = 0.3) {
+      if (!audio) return;
+      audio.volume = 0;
+      audio.play().catch(() => {});
+      const step = 0.05;
+      const interval = duration / (targetVolume / step);
+      const fade = setInterval(() => {
+        if (audio.volume < targetVolume - step) {
+          audio.volume = Math.min(targetVolume, audio.volume + step);
+        } else {
+          clearInterval(fade);
+          audio.volume = targetVolume;
+        }
+      }, interval);
+    }
 
-  // Normal transition
-  showNextPage();
-});
+    let firstPageExplosionPlayed = false;
 
+    // Handle first interaction for autoplay on iOS and others
+    let hasInteracted = false;
+    document.body.addEventListener('click', () => {
+      if (!hasInteracted) {
+        hasInteracted = true;
+        bgMusic.volume = 0.3;
+        bgMusic.play().catch(() => {});
+      }
 
+      const gamePage = document.getElementById('game-page');
 
-    window.addEventListener('load', () => {
-      animateText(pages[0]);
-      showHintAfterIdle();
+      // Handle first page explosion
+      if (current === 1 && !firstPageExplosionPlayed) {
+        firstPageExplosionPlayed = true;
+
+        const preloadedSrc = document.getElementById('explosion-preload').src;
+        const explosionContainer = document.getElementById('explosion-container');
+        const explosionImg = document.createElement('img');
+        explosionImg.src = preloadedSrc + "?v=" + Date.now(); // Force restart
+        explosionImg.alt = "Explosion";
+        explosionImg.style.width = "500px";
+        explosionImg.style.height = "auto";
+        explosionImg.style.opacity = "0";
+        explosionImg.style.transition = "opacity 0.3s ease";
+        explosionImg.style.pointerEvents = "none";
+        explosionContainer.appendChild(explosionImg);
+
+        setTimeout(() => {
+          explosionImg.style.opacity = "1";
+const catGif = document.getElementById('cat-gif');
+catGif.style.transition = "opacity 1.5s ease";
+catGif.style.opacity = "0";
+
+          explosionSound.volume = 0.5;
+          explosionSound.play().catch(() => {});
+        }, 50);
+
+        // Let explosion play fully, then continue
+        setTimeout(() => {
+          explosionContainer.removeChild(explosionImg);
+          showNextPage();
+        }, 3000);
+        return;
+      }
+
+      // If on the game page, check win condition
+      if (current === changeMusicAt && !gameCompleted) {
+        const angleNormalized = (angle + 360) % 360;
+        if (angleNormalized <= 5 || angleNormalized >= 355) {
+          gameCompleted = true;
+          alert("You won the fishing game! 🎉");
+          showNextPage();
+          return;
+        } else {
+          alert("Try again! You need to click when the stick is near vertical.");
+          return;
+        }
+      }
+
+      showNextPage();
     });
+
+    // Animate the first page text if any
+    animateText(pages[0]);
+    showHintAfterIdle();
+
   </script>
 </body>
 </html>
