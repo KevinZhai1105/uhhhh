@@ -464,9 +464,9 @@
 
         setTimeout(() => {
           explosionImg.style.opacity = "1";
-const catGif = document.getElementById('cat-gif');
-catGif.style.transition = "opacity 1.5s ease";
-catGif.style.opacity = "0";
+          const catGif = document.getElementById('cat-gif');
+          catGif.style.transition = "opacity 1.5s ease";
+          catGif.style.opacity = "0";
 
           explosionSound.volume = 0.5;
           explosionSound.play().catch(() => {});
@@ -476,7 +476,7 @@ catGif.style.opacity = "0";
         setTimeout(() => {
           explosionContainer.removeChild(explosionImg);
           showNextPage();
-        }, 3000);
+        }, 2500);
         return;
       }
 
