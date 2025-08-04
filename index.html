@@ -403,37 +403,44 @@
     animateText(next);
 
     // Switch music at page 10
-//    if (current === 10) {
-//      await fadeOutAudio(bgMusic);
-//      fadeInAudio(endMusic, 1500, 0.3);
-//    }
+    if (current === 10) {
+      await fadeOutAudio(bgMusic);
+      fadeInAudio(endMusic, 1500, 0.3);
+    }
 
     showHintAfterIdle();
     canClick = true;
   }
 
   // Audio helpers
-  function fadeOutAudio(audio, duration = 1500) {
-    return new Promise(resolve => {
-      const step = 0.05;
-      const interval = duration / (audio.volume / step);
-      const fade = setInterval(() => {
-        if (audio.volume > step) {
-          audio.volume = Math.max(0, audio.volume - step);
-        } else {
-          clearInterval(fade);
-          audio.pause();
-          audio.volume = 1;
-          resolve();
-        }
-      }, interval);
-    });
-  }
+    function fadeOutAudio(audio, duration = 1500) {
+      return new Promise(resolve => {
+        if (!audio) return resolve();
+        const step = 0.05;
+        const interval = duration / (audio.volume / step);
+        const fade = setInterval(() => {
+          if (audio.volume > step) {
+            audio.volume = Math.max(0, audio.volume - step);
+          } else {
+            clearInterval(fade);
+            try {
+              audio.pause();
+            } catch (e) {}
+            audio.volume = 1;
+            resolve();
+          }
+        }, interval);
+      });
+    }
+
 
   function fadeInAudio(audio, duration = 1500, targetVolume = 0.3) {
     if (!audio) return;
     audio.volume = 0;
-    audio.play().catch(() => {});
+    audio.play().catch((e) => {
+      console.warn("Audio play failed:", e);
+      return; // Don't block transition
+    });
     const step = 0.05;
     const interval = duration / (targetVolume / step);
     const fade = setInterval(() => {
@@ -445,6 +452,7 @@
       }
     }, interval);
   }
+
 
   // First click interaction
   document.body.addEventListener('click', () => {
