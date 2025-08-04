@@ -283,8 +283,8 @@
     </div>
   </div>
 
-  <div class="page" data-bg="#ffefc6">
-    <img class="page-content" src="https://media.tenor.com/OA8KFcZxPjsAAAAi/sad-emoji.gif" alt="Sad goodbye" />
+<div class="page" data-bg="#FFCCB6">
+    <img src="https://media.tenor.com/OA8KFcZxPjsAAAAi/sad-emoji.gif" alt="Sad" />
   </div>
   <div class="page" data-bg="#ffefc6">
     <div class="page-content" data-text="That's it."></div>
@@ -303,11 +303,11 @@
     const bgMusic = document.getElementById('bg-music');
     const explosionSound = document.getElementById('explosion-sound');
     const endMusic = document.getElementById('end-music');
-    const changeMusicAt = 10;
+    const changeMusicAt = 9;
 
     const pages = Array.from(document.querySelectorAll('.page'));
     const hint = document.getElementById('click-hint');
-    const fadeDuration = 1100; // in ms (match CSS transition for opacity)
+    const fadeDuration = 11; // in ms (match CSS transition for opacity)
     const idleDelay = 3000;
     let current = 0;
     let canClick = true;
@@ -485,7 +485,11 @@
         const angleNormalized = (angle + 360) % 360;
         if (angleNormalized <= 5 || angleNormalized >= 355) {
           gameCompleted = true;
+          alert("You won the fishing game! 🎉");
           showNextPage();
+          return;
+        } else {
+          alert("Try again! You need to click when the stick is near vertical.");
           return;
         }
       }
