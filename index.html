@@ -237,7 +237,7 @@
   <!-- Pages -->
   <div class="page visible" id="sound-intro" data-bg="#fff0f7">
     <div class="page-content" data-text="Before you continue, turn your sound on 🔊"></div>
-    <img src="https://media.tenor.com/HiK-rdcohEIAAAAi/listen-ear.gif" alt="Turn sound on" />
+
   </div>
 
   <div class="page" data-bg="#fff0f7">
@@ -316,190 +316,176 @@
   <!-- Hint -->
   <div id="click-hint">Click anywhere to continue 💫</div>
 
-  <script>
-    const bgMusic = document.getElementById('bg-music');
-    const explosionSound = document.getElementById('explosion-sound');
-    const endMusic = document.getElementById('end-music');
-    const changeMusicAt = 10;
+<script>
+  const bgMusic = document.getElementById('bg-music');
+  const explosionSound = document.getElementById('explosion-sound');
+  const endMusic = document.getElementById('end-music');
 
-    const pages = Array.from(document.querySelectorAll('.page'));
-    const hint = document.getElementById('click-hint');
-    const fadeDuration = 1100; // in ms (match CSS transition for opacity)
-    const idleDelay = 3000;
-    let current = 0;
-    let canClick = true;
-    let idleTimer;
-    let gameCompleted = false;
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const hint = document.getElementById('click-hint');
+  const fadeDuration = 1100;
+  const idleDelay = 3000;
+  const gamePage = document.getElementById('game-page');
 
-    // Stick rotation logic
-    let angle = -45;
-    const stick = document.querySelector('.rotating-image');
+  let current = 0;
+  let canClick = true;
+  let idleTimer;
+  let gameCompleted = false;
+  let hasInteracted = false;
+  let firstPageExplosionPlayed = false;
 
-    function animateStick() {
-      const time = performance.now() / 1000;
-      const baseSpeed = 1;
-      const amplitude = 45;
+  // Typewriter animation
+  function animateText(page) {
+    const container = page.querySelector('.page-content');
+    const text = container?.dataset.text || '';
+    if (!container) return;
+    container.innerHTML = '';
 
-      const sinValue = Math.sin(time * baseSpeed);
-      angle = sinValue * amplitude;
+    [...text].forEach((char, i) => {
+      const span = document.createElement('span');
+      span.textContent = char;
+      span.className = 'type-char';
+      span.style.animationDelay = `${i * 0.05}s`;
+      container.appendChild(span);
+    });
+  }
 
-      // Slightly reduce angle near 0°
-      if (Math.abs(angle) < 10) {
-        angle *= 0.95 + (Math.abs(angle) / 10) * 0.05;
-      }
+  // Stick animation
+  let angle = -45;
+  const stick = document.querySelector('.rotating-image');
 
-      stick.style.transform = `rotate(${angle}deg)`;
-      requestAnimationFrame(animateStick);
+  function animateStick() {
+    const time = performance.now() / 1000;
+    const baseSpeed = 1;
+    const amplitude = 45;
+
+    const sinValue = Math.sin(time * baseSpeed);
+    angle = sinValue * amplitude;
+
+    if (Math.abs(angle) < 10) {
+      angle *= 0.95 + (Math.abs(angle) / 10) * 0.05;
     }
+
+    stick.style.transform = `rotate(${angle}deg)`;
     requestAnimationFrame(animateStick);
+  }
+  requestAnimationFrame(animateStick);
 
-    function showHintAfterIdle() {
-      clearTimeout(idleTimer);
-      if (current === pages.length - 1) {
-        hint.classList.remove('visible');
-        return;
-      }
-      idleTimer = setTimeout(() => {
-        hint.textContent = "Click anywhere to continue 💫";
-        hint.classList.add('visible');
-      }, idleDelay);
+  // Hint behavior
+  function showHintAfterIdle() {
+    clearTimeout(idleTimer);
+    if (current === pages.length - 1) return;
+    idleTimer = setTimeout(() => {
+      hint.textContent = "Click anywhere to continue 💫";
+      hint.classList.add('visible');
+    }, idleDelay);
+  }
+
+  function hideHint() {
+    hint.classList.remove('visible');
+    showHintAfterIdle();
+  }
+
+  // Page transition
+  async function showNextPage() {
+    if (!canClick || current >= pages.length - 1) return;
+    canClick = false;
+
+    pages[current].classList.remove('visible');
+    hint.classList.remove('visible');
+    clearTimeout(idleTimer);
+
+    await new Promise(r => setTimeout(r, fadeDuration));
+    current++;
+    const next = pages[current];
+    next.classList.add('visible');
+    document.body.style.background = next.dataset.bg || '#ffffff';
+    animateText(next);
+
+    // Switch music at page 10
+    if (current === 10) {
+      await fadeOutAudio(bgMusic);
+      fadeInAudio(endMusic, 1500, 0.3);
     }
 
-    function hideHint() {
-      hint.classList.remove('visible');
-      showHintAfterIdle();
-    }
+    showHintAfterIdle();
+    canClick = true;
+  }
 
-    async function showNextPage() {
-      if (!canClick || current >= pages.length - 1) return;
-      canClick = false;
-
-      clearTimeout(idleTimer);
-      hint.classList.remove('visible');
-
-      pages[current].classList.remove('visible');
-      await new Promise(r => setTimeout(r, fadeDuration));
-
-      current++;
-      pages[current].classList.add('visible');
-      document.body.style.background = pages[current].dataset.bg || '#ffffff';
-
-      // 🔄 Change music at specific page
-      if (current === changeMusicAt) {
-        await fadeOutAudio(bgMusic);
-        fadeInAudio(endMusic, 1500, 0.3);
-      }
-
-      if (current !== pages.length - 1) {
-        showHintAfterIdle();
-      }
-
-      setTimeout(() => {
-        canClick = true;
-      }, fadeDuration);
-
-      animateText(pages[current]);
-    }
-
-    function animateText(page) {
-      const container = page.querySelector('.page-content');
-      const text = container?.dataset.text || '';
-      if (!container) return;
-      container.innerHTML = '';
-
-      [...text].forEach((char, i) => {
-        const span = document.createElement('span');
-        span.textContent = char;
-        span.className = 'type-char';
-        span.style.animationDelay = `${i * 0.05}s`;
-        container.appendChild(span);
-      });
-    }
-
-    function fadeOutAudio(audio, duration = 1500) {
-      return new Promise((resolve) => {
-        if (!audio) return resolve();
-        const step = 0.05;
-        const interval = duration / (audio.volume / step);
-        const fade = setInterval(() => {
-          if (audio.volume > step) {
-            audio.volume = Math.max(0, audio.volume - step);
-          } else {
-            clearInterval(fade);
-            audio.pause();
-            audio.volume = 1; // Reset for reuse
-            resolve();
-          }
-        }, interval);
-      });
-    }
-
-    function fadeInAudio(audio, duration = 1500, targetVolume = 0.3) {
-      if (!audio) return;
-      audio.volume = 0;
-      audio.play().catch(() => {});
+  // Audio helpers
+  function fadeOutAudio(audio, duration = 1500) {
+    return new Promise(resolve => {
       const step = 0.05;
-      const interval = duration / (targetVolume / step);
+      const interval = duration / (audio.volume / step);
       const fade = setInterval(() => {
-        if (audio.volume < targetVolume - step) {
-          audio.volume = Math.min(targetVolume, audio.volume + step);
+        if (audio.volume > step) {
+          audio.volume = Math.max(0, audio.volume - step);
         } else {
           clearInterval(fade);
-          audio.volume = targetVolume;
+          audio.pause();
+          audio.volume = 1;
+          resolve();
         }
       }, interval);
+    });
+  }
+
+  function fadeInAudio(audio, duration = 1500, targetVolume = 0.3) {
+    if (!audio) return;
+    audio.volume = 0;
+    audio.play().catch(() => {});
+    const step = 0.05;
+    const interval = duration / (targetVolume / step);
+    const fade = setInterval(() => {
+      if (audio.volume < targetVolume - step) {
+        audio.volume = Math.min(targetVolume, audio.volume + step);
+      } else {
+        clearInterval(fade);
+        audio.volume = targetVolume;
+      }
+    }, interval);
+  }
+
+  // First click interaction
+  document.body.addEventListener('click', () => {
+    if (!hasInteracted) {
+      hasInteracted = true;
+      bgMusic.volume = 0.3;
+      bgMusic.play().catch(() => {});
     }
 
-    let firstPageExplosionPlayed = false;
+    // 🔥 Explosion page logic (first click after cat gif)
+    if (current === 1 && !firstPageExplosionPlayed) {
+      firstPageExplosionPlayed = true;
 
-    // Handle first interaction for autoplay on iOS and others
-    let hasInteracted = false;
-    document.body.addEventListener('click', () => {
-      if (!hasInteracted) {
-        hasInteracted = true;
-        bgMusic.volume = 0.3;
-        bgMusic.play().catch(() => {});
-      }
+      const explosionContainer = document.getElementById('explosion-container');
+      const preloaded = document.getElementById('explosion-preload').src;
+      const img = document.createElement('img');
+      img.src = preloaded + "?t=" + Date.now();
+      img.style.width = '500px';
+      img.style.opacity = '0';
+      img.style.transition = 'opacity 0.3s ease';
+      explosionContainer.appendChild(img);
 
-      const gamePage = document.getElementById('game-page');
+      setTimeout(() => {
+        img.style.opacity = '1';
+        document.getElementById('cat-gif').style.opacity = '0';
+        explosionSound.volume = 0.5;
+        explosionSound.play().catch(() => {});
+      }, 50);
 
-      // Handle first page explosion
-      if (current === 1 && !firstPageExplosionPlayed) {
-        firstPageExplosionPlayed = true;
+      setTimeout(() => {
+        explosionContainer.removeChild(img);
+        showNextPage();
+      }, 2500);
 
-        const preloadedSrc = document.getElementById('explosion-preload').src;
-        const explosionContainer = document.getElementById('explosion-container');
-        const explosionImg = document.createElement('img');
-        explosionImg.src = preloadedSrc + "?v=" + Date.now(); // Force restart
-        explosionImg.alt = "Explosion";
-        explosionImg.style.width = "500px";
-        explosionImg.style.height = "auto";
-        explosionImg.style.opacity = "0";
-        explosionImg.style.transition = "opacity 0.3s ease";
-        explosionImg.style.pointerEvents = "none";
-        explosionContainer.appendChild(explosionImg);
+      return;
+    }
 
-        setTimeout(() => {
-          explosionImg.style.opacity = "1";
-          const catGif = document.getElementById('cat-gif');
-          catGif.style.transition = "opacity 1.5s ease";
-          catGif.style.opacity = "0";
-
-          explosionSound.volume = 0.5;
-          explosionSound.play().catch(() => {});
-        }, 50);
-
-        // Let explosion play fully, then continue
-        setTimeout(() => {
-          explosionContainer.removeChild(explosionImg);
-          showNextPage();
-        }, 2500);
-        return;
-      }
-
+    // 🎣 Fishing game logic
     if (gamePage.classList.contains('visible')) {
-    const normalized = ((angle % 360) + 360) % 360;
-      // User has not completed the game yet
+      const normalized = ((angle % 360) + 360) % 360;
+
       if (!gameCompleted) {
         if (normalized <= 5 || normalized >= 355) {
           gameCompleted = true;
@@ -510,29 +496,24 @@
           hint.classList.add("visible");
           setTimeout(() => hint.classList.remove("visible"), 1500);
         }
-        return; // wait until next click
+        return;
       } else {
-        // Game already completed and clicked again
-        hint.classList.remove("visible");
-        showNextPage(); // ✅ Allow progression now
+        // ✅ Now allow transition
+        showNextPage();
         return;
       }
     }
-
-
-
-  // Prevent skipping game early
-  if (gamePage.classList.contains('visible') && !gameCompleted) return;
 
     // Normal transition
     showNextPage();
   });
 
+  // Init
+  animateText(pages[0]);
+  pages[0].classList.add("visible");
+  document.body.style.background = pages[0].dataset.bg || '#fff';
+  showHintAfterIdle();
+</script>
 
-    // Animate the first page text if any
-    animateText(pages[0]);
-    showHintAfterIdle();
-
-  </script>
 </body>
 </html>
